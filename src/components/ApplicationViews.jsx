@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Authorized } from "./Authorized";
 import { Login } from "../pages/Login.jsx";
@@ -20,7 +20,7 @@ export const ApplicationViews = () => {
     },
   ]);
 
-  const fetchRocksFromAPI = async () => {
+  const fetchRocksFromAPI = useCallback(async () => {
     const response = await fetch("http://localhost:8000/rocks", {
       headers: {
         Authorization: `Token ${
@@ -30,7 +30,7 @@ export const ApplicationViews = () => {
     });
     const rocks = await response.json();
     setRocksState(rocks);
-  };
+  }, []);
 
   return (
     <BrowserRouter>
