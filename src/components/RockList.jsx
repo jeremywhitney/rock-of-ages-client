@@ -18,6 +18,34 @@ export const RockList = ({ rocks, fetchRocks, showAll }) => {
           <div>
             In the collection of {rock.user.first_name} {rock.user.last_name}
           </div>
+          {showAll ? (
+            ""
+          ) : (
+            <div>
+              <button
+                onClick={async () => {
+                  const response = await fetch(
+                    `http://localhost:8000/rocks/${rock.id}`,
+                    {
+                      method: "DELETE",
+                      headers: {
+                        Authorization: `Token ${
+                          JSON.parse(localStorage.getItem("rock_token")).token
+                        }`,
+                      },
+                    }
+                  );
+
+                  if (response.status === 204) {
+                    fetchRocks(showAll);
+                  }
+                }}
+                className="border border-solid bg-red-700 text-white p-1 rounded-md"
+              >
+                DELETE
+              </button>
+            </div>
+          )}
         </div>
       ));
     }
